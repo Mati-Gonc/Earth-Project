@@ -17,7 +17,7 @@ def process_path(file_path):
 
 def data_path():
 
-    path = '../Mati-Gonc/Earth-Project/raw_data/metadata.csv'
+    path = '../Earth-Project/raw_data/metadata_process.csv'
     df = pd.read_csv(path)
 
     df["prep_path"] = "../Mati-Gonc/Earth-Project/raw_data/"
