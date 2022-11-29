@@ -20,7 +20,7 @@ def data_path():
     path = '../Earth-Project/raw_data/metadata_process.csv'
     df = pd.read_csv(path)
 
-    df["prep_path"] = "../Mati-Gonc/Earth-Project/raw_data/"
+    df["prep_path"] = "../Earth-Project/raw_data/"
     df["full_path_sat"] =df["prep_path"]+df["sat_image_path"]
     df= df[df["split"]=="train"]
 
