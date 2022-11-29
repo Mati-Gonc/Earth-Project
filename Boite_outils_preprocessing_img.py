@@ -90,3 +90,55 @@ def upload_blob(bucket_name, source_file_name, destination_blob_name):
     print(
         f"File {source_file_name} uploaded to {destination_blob_name}."
     )
+
+
+import os
+from os import listdir
+from PIL import Image
+import cv2
+
+
+#slicing a picutre into 81 smaller picture then naming each picutre with a specific name - eg: 116_1_sat.jpg
+
+
+folder_dir = "/Users/nicolaslaportefaber/code/elmatador9/Earth-Project/data/train/"
+folder_re_dir = "/Users/nicolaslaportefaber/code/elmatador9/Earth-Project/data/123/"
+
+
+def name_new_image_index(image_name, index):
+    debut = image_name[:-8]
+    fin = image_name[-8:]
+    return f'{debut}_{index+1}{fin}'
+
+def ninja_slicing_naming(folder_dir,folder_re_dir):
+
+    for image in os.listdir(folder_dir) :
+        if (image.endswith(".jpg")):
+            image_sat = plt.imread(f'{folder_dir}{image}')
+            r_image_sat = reshape_split(image_sat, (272,272))
+            count=0
+            for i in range(9):
+                for j in range(9):
+                    count+=1
+                    cv2.imwrite(f'{folder_re_dir}{name_new_image_index(image, count)}', r_image_sat[i][j])
+
+    return print('Burabō')
+
+
+#same idea as presented above but with better style. #Roger_federer
+
+def roger_slicing_naming(folder_dir,folder_re_dir):
+
+    for image_name in os.listdir(folder_dir) :
+
+        if (image_name.endswith(".jpg")):
+
+            image_sat = plt.imread(f'{folder_dir}{image_name}')
+            r_image_sat = reshape_split(image_sat, (272,272))
+
+            for i, row in enumerate(r_image_sat):
+                for j, image in enumerate(row):
+                    filename = image_name.replace("_", f"_{9*i + j}_")
+                    cv2.imwrite(f'{folder_re_dir}{filename}', image)
+
+    return print('What a point')
