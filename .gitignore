@@ -6,6 +6,10 @@ __pycache__/
 # raw data
 raw_data/
 
+#Fichiers pourris Mac
+.DS_Store
+fichier.yaml
+
 # Notebook
 Notebooks/
 
