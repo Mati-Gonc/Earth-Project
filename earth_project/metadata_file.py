@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 
+
 def new_metadata_file():
     path = '../Earth-Project/raw_data/metadata.csv'
     df = pd.read_csv(path)
@@ -16,8 +17,8 @@ def new_metadata_file():
             image_id_new.append(str(image_id)+"_"+str(j))
 
     for image_id in image_id_new:
-        sat_image_path.append("train/"+image_id+"_sat.jpg")
-        mask_image_path.append("train/"+image_id+"_mask.png")
+        sat_image_path.append("data_process/"+image_id+"_sat.jpg")
+        mask_image_path.append("data_process/"+image_id+"_binary.png")
 
     df_new = {
     "image_id" : image_id_new,

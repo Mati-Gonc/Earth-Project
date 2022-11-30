@@ -1,12 +1,13 @@
-import pandas  as pd
-import numpy as np
 import os
-import tensorflow as tf
+
 import cv2
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import tensorflow as tf
 
 # Création du dataset metadata
-df = pd.read_csv('data/metadata.csv')
+df = pd.read_csv('raw_data/metadata.csv')
 df = df[df['split'] == 'train']
 
 # Dictionnaire des classes du masque d'origine
@@ -21,7 +22,8 @@ land_classes = {
 }
 
 
-# Fonction permettant de binariser une image de masque multiclasse vers une image de classe 0 ou 1. Remarque : on peut changer de target si on le souhaite (cf le dictionnaire des classes)
+# Fonction permettant de binariser une image de masque multiclasse vers une image de classe 0 ou 1.
+# Remarque : on peut changer de target si on le souhaite (cf le dictionnaire des classes)
 def binarize_img(img, target='forest_land'):
     encoder = np.array([1,2,4])
     land_classes_norm = {key : values/255 for key,values in land_classes.items()}
@@ -36,7 +38,7 @@ def binarize_img(img, target='forest_land'):
 def upload_binary_mask(df, destination_path):
     count = 0
     for i in range(len(df)):
-        img=cv2.imread(os.path.join('data', df['mask_path'][i]))
+        img=cv2.imread(os.path.join('raw_data', df['mask_path'][i]))
         img_binarized = binarize_img(img)
         cv2.imwrite(os.path.join(destination_path, name_bin(df['mask_path'][i])), img_binarized)
         count+=1
@@ -46,6 +48,11 @@ def upload_binary_mask(df, destination_path):
         #plt.imshow(img_binarized, cmap='gray')
         #plt.show()
 
+def name_bin(file_name):
+    if file_name[:6] == 'train/' : file_name = file_name[6:]
+    begin = file_name[:-8]
+    end = file_name[-4:]
+    return f'{begin}binary{end}'
 
 # bout de code qui permet de télécharger et afficher les éléments masqués
 for element in os.listdir('data/binary_flat/'):

@@ -1,3 +1,6 @@
+import os
+
+import cv2
 import matplotlib.pyplot as plt
 from google.cloud import storage
 
@@ -92,18 +95,13 @@ def upload_blob(bucket_name, source_file_name, destination_blob_name):
     )
 
 
-import os
-from os import listdir
-from PIL import Image
-import cv2
+
 
 
 #slicing a picutre into 81 smaller picture then naming each picutre with a specific name - eg: 116_1_sat.jpg
 
-
-folder_dir = "/Users/nicolaslaportefaber/code/elmatador9/Earth-Project/data/train/"
-folder_re_dir = "/Users/nicolaslaportefaber/code/elmatador9/Earth-Project/data/123/"
-
+folder_dir = "/data/train/"
+folder_re_dir = "/data/sliced_img/"
 
 def name_new_image_index(image_name, index):
     debut = image_name[:-8]
@@ -133,12 +131,12 @@ def roger_slicing_naming(folder_dir,folder_re_dir):
 
         if (image_name.endswith(".jpg")):
 
-            image_sat = plt.imread(f'{folder_dir}{image_name}')
+            image_sat = plt.imread(f'{folder_dir}/{image_name}')
             r_image_sat = reshape_split(image_sat, (272,272))
 
             for i, row in enumerate(r_image_sat):
                 for j, image in enumerate(row):
                     filename = image_name.replace("_", f"_{9*i + j}_")
-                    cv2.imwrite(f'{folder_re_dir}{filename}', image)
+                    cv2.imwrite(f'{folder_re_dir}/{filename}', image)
 
     return print('What a point')
