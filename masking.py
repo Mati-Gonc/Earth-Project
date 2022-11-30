@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 df = pd.read_csv('data/metadata.csv')
 df = df[df['split'] == 'train']
 
-# Dictionnaire des classes
+# Dictionnaire des classes du masque d'origine
 land_classes = {
     'urban_land': np.array([0,255,255]),
     'agriculture_land' : np.array([255,255,0]),
@@ -21,7 +21,7 @@ land_classes = {
 }
 
 
-# Fonction permettant de binariser une image. on peut changer de target si on le souhaite (cf le dictionnaire des classes)
+# Fonction permettant de binariser une image de masque multiclasse vers une image de classe 0 ou 1. Remarque : on peut changer de target si on le souhaite (cf le dictionnaire des classes)
 def binarize_img(img, target='forest_land'):
     encoder = np.array([1,2,4])
     land_classes_norm = {key : values/255 for key,values in land_classes.items()}
@@ -32,7 +32,7 @@ def binarize_img(img, target='forest_land'):
     img_binarized = np.array([[binarize(pixel) for pixel in row] for row in img_encod])
     return img_binarized
 
-# Fonction permettant de uploader les masques issus d'un dataframe metadata vers un destination path
+# Fonction permettant d'uploader les masques issus d'un dataframe metadata vers un destination path
 def upload_binary_mask(df, destination_path):
     count = 0
     for i in range(len(df)):
@@ -45,7 +45,6 @@ def upload_binary_mask(df, destination_path):
         #plt.show()
         #plt.imshow(img_binarized, cmap='gray')
         #plt.show()
-        print(img_binarized.shape)
 
 
 # bout de code qui permet de télécharger et afficher les éléments masqués
