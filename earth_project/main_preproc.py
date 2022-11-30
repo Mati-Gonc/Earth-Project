@@ -41,7 +41,7 @@ if __name__ == '__main__':
     sliced_img_dir = "sliced_img"
     sliced_img_fullpath = '../raw_data/sliced_img'
 
-    os.mkdir(os.path.join("Earth-Project","raw_data",sliced_img_dir))
+    #os.mkdir(os.path.join("Earth-Project","raw_data",sliced_img_dir))
 
     Boite_outils_preprocessing_img.roger_slicing_naming(sliced_img_path, sliced_img_fullpath)
 

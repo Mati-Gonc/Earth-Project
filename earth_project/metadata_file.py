@@ -14,7 +14,7 @@ def new_metadata_file():
     mask_image_path = []
 
     for image_id in df["image_id"]:
-        for j in range(1,82):
+        for j in range(0,81):
             image_id_new.append(str(image_id)+"_"+str(j))
 
     for image_id in image_id_new:
