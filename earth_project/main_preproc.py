@@ -2,24 +2,22 @@ import os
 from os import listdir
 
 import cv2
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import tensorflow as tf
 from google.cloud import storage
 from PIL import Image
 
-import masking
 import Boite_outils_preprocessing_img
-import metadata_file
 import loading_tf_object
+import masking
+import metadata_file
 
-destination_path = 'raw_data/binary'
+destination_path = '../raw_data/train'
 folder_dir = "/data/train/"
 folder_re_dir = "/data/sliced_img/"
 
 # Création du dataset metadata
-df = pd.read_csv('raw_data/metadata.csv')
+df = pd.read_csv('../raw_data/metadata.csv')
 df = df[df['split'] == 'train']
 
 # Dictionnaire des classes du masque d'origine
@@ -35,18 +33,26 @@ land_classes = {
 
 if __name__ == '__main__':
 
-    # /!\ CREER UN MASK DATA A METTRE EN DEST
-
     masking.upload_binary_mask(df, destination_path)
 
-    # /!\ CREER UN DOSSIER SLICING_IMG
+    print('masking done')
 
-    Boite_outils_preprocessing_img.roger_slicing_naming(folder_dir, folder_re_dir)
+    sliced_img_path = '../raw_data/train'
+    sliced_img_dir = "sliced_img"
+    sliced_img_fullpath = '../raw_data/sliced_img'
 
-    # /!\ RAJOUTER FONCTION POUR SLICING MASK /!\
+    os.mkdir(os.path.join("Earth-Project","raw_data",sliced_img_dir))
 
-    # /!\ METTRE UNE FONCTION QUI MET TOUTES LES IMAGES DANS PROCESS_DATA FOLDER
+    Boite_outils_preprocessing_img.roger_slicing_naming(sliced_img_path, sliced_img_fullpath)
+
+    print('slicing done bitch')
 
     metadata_file.new_metadata_file()
 
+    print('nouveau fichier metadata cree')
+
     train_ds, val_ds, test_ds = loading_tf_object.data_path()
+
+    print('objet tensorflow cree je crois quil y a 4 e')
+
+    print(train_ds.info())

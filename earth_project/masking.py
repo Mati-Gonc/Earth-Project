@@ -7,7 +7,7 @@ import pandas as pd
 import tensorflow as tf
 
 # Création du dataset metadata
-df = pd.read_csv('raw_data/metadata.csv')
+df = pd.read_csv('../raw_data/metadata.csv')
 df = df[df['split'] == 'train']
 
 # Dictionnaire des classes du masque d'origine
@@ -32,13 +32,13 @@ def binarize_img(img, target='forest_land'):
     img_encod = np.dot(img_norm,encoder)
     binarize = lambda x : 1 if x==land_classes_encod[target] else 0
     img_binarized = np.array([[binarize(pixel) for pixel in row] for row in img_encod])
-    return img_binarized
+    return img_binarized.reshape(2448,2448,1)
 
 # Fonction permettant d'uploader les masques issus d'un dataframe metadata vers un destination path
 def upload_binary_mask(df, destination_path):
     count = 0
     for i in range(len(df)):
-        img=cv2.imread(os.path.join('raw_data', df['mask_path'][i]))
+        img=cv2.imread(os.path.join('../raw_data', df['mask_path'][i]))
         img_binarized = binarize_img(img)
         cv2.imwrite(os.path.join(destination_path, name_bin(df['mask_path'][i])), img_binarized)
         count+=1
@@ -55,8 +55,8 @@ def name_bin(file_name):
     return f'{begin}binary{end}'
 
 # bout de code qui permet de télécharger et afficher les éléments masqués
-for element in os.listdir('data/binary_flat/'):
-    img = cv2.imread(os.path.join('data/binary_flat/', element), 0)
-    X_bin.append(img)
+#for element in os.listdir('data/binary_flat/'):
+ #   img = cv2.imread(os.path.join('data/binary_flat/', element), 0)
+  #  X_bin.append(img)
     #plt.imshow(img, cmap='gray')
     #plt.show()

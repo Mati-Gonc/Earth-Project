@@ -11,6 +11,8 @@ def reshape_split(image, kernel_size: tuple):
     img_height, img_width, channels = image.shape
     tile_height, tile_width = kernel_size
 
+
+
     tiled_array = image.reshape (img_height // tile_height,
                                  tile_height,
                                  img_width // tile_width,
@@ -129,14 +131,17 @@ def roger_slicing_naming(folder_dir,folder_re_dir):
 
     for image_name in os.listdir(folder_dir) :
 
-        if (image_name.endswith(".jpg")):
+        if 'mask'in image_name :
+            pass
 
+        else :
             image_sat = plt.imread(f'{folder_dir}/{image_name}')
             r_image_sat = reshape_split(image_sat, (272,272))
 
             for i, row in enumerate(r_image_sat):
                 for j, image in enumerate(row):
-                    filename = image_name.replace("_", f"_{9*i + j}_")
-                    cv2.imwrite(f'{folder_re_dir}/{filename}', image)
+                        filename = image_name.replace("_", f"_{9*i + j}_")
+                        filename = image_name.replace("_", f"_{9*i + j}_")
+                        cv2.imwrite(f'{folder_re_dir}/{filename}', image)
 
-    return print('What a point')
+    return print('No more slicing bro')
