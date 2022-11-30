@@ -54,5 +54,3 @@ if __name__ == '__main__':
     train_ds, val_ds, test_ds = loading_tf_object.data_path()
 
     print('objet tensorflow cree je crois quil y a 4 e')
-
-    print(train_ds.info())

@@ -32,13 +32,13 @@ def binarize_img(img, target='forest_land'):
     img_encod = np.dot(img_norm,encoder)
     binarize = lambda x : 1 if x==land_classes_encod[target] else 0
     img_binarized = np.array([[binarize(pixel) for pixel in row] for row in img_encod])
-    return img_binarized.reshape(2448,2448,1)
+    return img_binarized
 
 # Fonction permettant d'uploader les masques issus d'un dataframe metadata vers un destination path
 def upload_binary_mask(df, destination_path):
     count = 0
     for i in range(len(df)):
-        img=cv2.imread(os.path.join('../raw_data', df['mask_path'][i]))
+        img=plt.imread(os.path.join('../raw_data', df['mask_path'][i]))
         img_binarized = binarize_img(img)
         cv2.imwrite(os.path.join(destination_path, name_bin(df['mask_path'][i])), img_binarized)
         count+=1

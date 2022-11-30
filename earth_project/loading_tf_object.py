@@ -22,7 +22,7 @@ def data_path():
 
     df["prep_path"] = "../raw_data/"
     df["full_path_sat"] =df["prep_path"]+df["sat_image_path"]
-    df= df[df["split"]=="train"]
+
 
     list_image_path=df["full_path_sat"]
     size_sample = int(round(len(list_image_path)*0.8,0))

@@ -134,8 +134,16 @@ def roger_slicing_naming(folder_dir,folder_re_dir):
         if 'mask'in image_name :
             pass
 
+        if 'DS' in image_name :
+            pass
+
         else :
+
             image_sat = plt.imread(f'{folder_dir}/{image_name}')
+
+            if 'binary' in image_name :
+                image_sat = image_sat.reshape(2448, 2448, 1)
+
             r_image_sat = reshape_split(image_sat, (272,272))
 
             for i, row in enumerate(r_image_sat):
