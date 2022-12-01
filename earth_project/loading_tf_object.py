@@ -10,15 +10,14 @@ def process_path(file_path):
 
     file_path_mask = tf.strings.regex_replace(file_path,"_sat.jpg","_mask.png")
     img_mask = tf.io.read_file(file_path_mask)
-    img_mask = tf.io.decode_png(img_mask,channels=3)
+    img_mask = tf.io.decode_png(img_mask,channels=1)
     img_mask = tf.cast(img_mask, tf.float32)
 
     return img_sat, img_mask
 
-def data_path():
+def data_path(path_to_data_process):
 
-    path = '../raw_data/metadata_process.csv'
-    df = pd.read_csv(path)
+    df = pd.read_csv(path_to_data_process)
 
     df["prep_path"] = "../raw_data/"
     df["full_path_sat"] =df["prep_path"]+df["sat_image_path"]

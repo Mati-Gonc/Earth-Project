@@ -51,6 +51,7 @@ if __name__ == '__main__':
 
     print('nouveau fichier metadata cree')
 
-    train_ds, val_ds, test_ds = loading_tf_object.data_path()
+    path_to_data_process = '../raw_data/metadata_process.csv'
+    train_ds, val_ds, test_ds = loading_tf_object.data_path(path_to_data_process)
 
     print('objet tensorflow cree je crois quil y a 4 e')
