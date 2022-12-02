@@ -11,6 +11,7 @@ import Boite_outils_preprocessing_img
 import loading_tf_object
 import masking
 import metadata_file
+import preprocess_arthur
 
 destination_path = '../raw_data/train'
 folder_dir = "/data/train/"
@@ -33,25 +34,26 @@ land_classes = {
 
 if __name__ == '__main__':
 
-    masking.upload_binary_mask(df, destination_path)
+    #masking.upload_binary_mask(df, destination_path)
 
-    print('masking done')
+    #print('masking done')
 
-    sliced_img_path = '../raw_data/train'
-    sliced_img_dir = "sliced_img"
-    sliced_img_fullpath = '../raw_data/sliced_img'
+    #sliced_img_path = '../raw_data/train'
+    #sliced_img_dir = "sliced_img"
+    #sliced_img_fullpath = '../raw_data/sliced_img'
 
     #os.mkdir(os.path.join("Earth-Project","raw_data",sliced_img_dir))
 
-    Boite_outils_preprocessing_img.roger_slicing_naming(sliced_img_path, sliced_img_fullpath)
+    #Boite_outils_preprocessing_img.roger_slicing_naming(sliced_img_path, sliced_img_fullpath)
 
-    print('slicing done bitch')
+    #print('slicing done bitch')
 
-    metadata_file.new_metadata_file()
+    #metadata_file.new_metadata_file()
 
-    print('nouveau fichier metadata cree')
+    #print('nouveau fichier metadata cree')
 
-    path_to_data_process = '../raw_data/metadata_process.csv'
-    train_ds, val_ds, test_ds = loading_tf_object.data_path(path_to_data_process)
+    #path_to_data_process = '../raw_data/metadata_process.csv'
+    #train_ds, val_ds, test_ds = loading_tf_object.data_path(path_to_data_process)
 
-    print('objet tensorflow cree je crois quil y a 4 e')
+    path_data = "../raw_data/"
+    ds_train, ds_test = preprocess_arthur.process_set(path_data)
