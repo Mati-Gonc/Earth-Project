@@ -78,10 +78,7 @@ def binary_mask(img, mask):
     return img, mask_bin
 
 
-path_data = "../raw_data/"
-set_partition = 0.2
-
-def process_set(path_data, set_partition):
+def process_set(path_data="../raw_data/", set_partition=0.2, batch_size=8):
 
     path_metadata = os.path.join(path_data,'metadata.csv')
     df = pd.read_csv(path_metadata).replace(np.nan, "")
@@ -112,7 +109,7 @@ def process_set(path_data, set_partition):
         .unbatch()
     )
 
-    ds_train = ds_binary_train.batch(8).prefetch(4)
-    ds_test = ds_binary_test.batch(8).prefetch(4)
+    ds_train = ds_binary_train.batch(batch_size).prefetch(4)
+    ds_test = ds_binary_test.batch(batch_size).prefetch(4)
 
     return ds_train, ds_test

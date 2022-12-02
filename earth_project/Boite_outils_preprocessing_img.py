@@ -117,8 +117,8 @@ def ninja_slicing_naming(folder_dir,folder_re_dir):
             image_sat = plt.imread(f'{folder_dir}{image}')
             r_image_sat = reshape_split(image_sat, (272,272))
             count=0
-            for i in range(9):
-                for j in range(9):
+            for i in range(10):
+                for j in range(10):
                     count+=1
                     cv2.imwrite(f'{folder_re_dir}{name_new_image_index(image, count)}', r_image_sat[i][j])
 
