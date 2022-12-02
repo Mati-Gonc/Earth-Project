@@ -56,4 +56,6 @@ if __name__ == '__main__':
     #train_ds, val_ds, test_ds = loading_tf_object.data_path(path_to_data_process)
 
     path_data = "../raw_data/"
-    ds_train, ds_test = preprocess_arthur.process_set(path_data)
+    set_partition= 0.8
+
+    ds_train, ds_test = preprocess_arthur.process_set(path_data, set_partition)

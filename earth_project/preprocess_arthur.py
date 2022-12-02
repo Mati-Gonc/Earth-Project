@@ -79,13 +79,14 @@ def binary_mask(img, mask):
 
 
 path_data = "../raw_data/"
+set_partition = 0.2
 
-def process_set(path_data):
+def process_set(path_data, set_partition):
 
     path_metadata = os.path.join(path_data,'metadata.csv')
     df = pd.read_csv(path_metadata).replace(np.nan, "")
     df['sat_image_path_2'] =path_data+'/' + df['sat_image_path']
-    max_idx_train = int(len(df[df.split == "train"]) * 0.2)
+    max_idx_train = int(len(df[df.split == "train"]) * set_partition)
     df_train = df[df.split == "train"][:max_idx_train]
     df_test = df[df.split == "train"][max_idx_train:]
 
