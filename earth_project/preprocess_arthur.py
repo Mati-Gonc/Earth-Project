@@ -33,7 +33,7 @@ def encoder(img, mask=None):
     return img, tensor
 
 def resizer(
-    img, mask=None, n_samples=11, img_height=2448, img_width=2448, img_channels=3
+    img, mask=None, n_samples=9, img_height=2448, img_width=2448, img_channels=3
 ):
 
     tile_height = 272
@@ -44,9 +44,6 @@ def resizer(
     img_pad = tf.image.pad_to_bounding_box(
         img, 0, 0, tile_height * n_samples, tile_width * n_samples
     )
-    mask_pad = tf.image.pad_to_bounding_box(
-        mask, 0, 0, tile_width * n_samples, tile_height * n_samples
-    )
 
     img = tf.reshape(
         img_pad, (n_samples, tile_height, n_samples, tile_width, img_channels)
@@ -54,13 +51,19 @@ def resizer(
     img = tf.transpose(img, (0, 2, 1, 3, 4))
     img = tf.reshape(img, (-1, tile_height, tile_width, img_channels))
 
-    mask = tf.reshape(
-        mask_pad, (n_samples, tile_height, n_samples, tile_width, img_channels)
-    )
-    mask = tf.transpose(mask, (0, 2, 1, 3, 4))
-    mask = tf.reshape(mask, (-1, tile_height, tile_width, img_channels))
+    if mask:
+        mask_pad = tf.image.pad_to_bounding_box(
+            mask, 0, 0, tile_width * n_samples, tile_height * n_samples
+        )
+        mask = tf.reshape(
+            mask_pad, (n_samples, tile_height, n_samples, tile_width, img_channels)
+        )
+        mask = tf.transpose(mask, (0, 2, 1, 3, 4))
+        mask = tf.reshape(mask, (-1, tile_height, tile_width, img_channels))
+        return img,mask
 
-    return img, mask
+
+    return img
 
 def rescaler(img, mask):
     scaler = tf.keras.layers.Rescaling(1.0 / 255)
@@ -113,3 +116,14 @@ def process_set(path_data="../raw_data/", set_partition=0.2, batch_size=8):
     ds_test = ds_binary_test.batch(batch_size).prefetch(4)
 
     return ds_train, ds_test
+
+def process_predict_img(img):
+    #img = tf.io.decode_jpeg(img, channels=3)
+
+    #img = load_image(path) au cas où
+    mask=None
+    img, mask = rescaler(img, mask)
+    img = resizer(img, mask)
+    #img, mask = encoder(img__, mask__)
+
+    return img

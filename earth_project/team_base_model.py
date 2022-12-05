@@ -3,8 +3,10 @@ import pandas as pd
 import numpy as np
 import os
 import tensorflow as tf
-from tensorflow.keras.layers import Conv2D, BatchNormalization, Conv2DTranspose, concatenate,  Dropout, MaxPooling2D, UpSampling2D
-from tensorflow.keras.losses import BinaryFocalCrossentropy, binary_crossentropy, binary_focal_crossentropy
+from tensorflow.keras.layers import Conv2D, BatchNormalization, Conv2DTranspose, concatenate
+#,  Dropout, MaxPooling2D, UpSampling2D
+#from tensorflow.keras.losses import BinaryFocalCrossentropy, binary_crossentropy, binary_focal_crossentropy
+from preprocess_arthur import process_predict_img
 
 
 def EncoderMiniBlock(inputs, n_filters=32, dropout_prob=0.3, max_pooling=True):
@@ -58,7 +60,7 @@ def DecoderMiniBlock(prev_layer_input, skip_layer_input, n_filters=32, up_sampli
                  kernel_initializer='HeNormal')(conv)
     return conv
 
-def model_build()
+def model_build():
     img_inputs = tf.keras.Input(shape=(272, 272, 3))
 
     # Encoding
@@ -84,9 +86,22 @@ def model_build()
 
     return model
 
-def model_fit(model, ds_train,epoch,model_name):
-    model.fit(ds_train, epochs=4)
-    return model
+""" def model_fit(model, ds_train, epochs=4, model_name):
+    model.fit(ds_train, epochs=epochs)
+    return model """
 
-def model_load(model, model_name):
-    return model.load_weights(model_name)
+""" def model_load(model, model_name):
+    return model.load_weights(model_name) """
+
+#'loaded_models/model_3layers/model_light'
+#'loaded_models/model_full_layers/test_model'
+
+def make_pred(img, weights = 'loaded_models/model_full_layers/test_model'):
+    img = process_predict_img(img)
+    model = model_build()
+    model.load_weights(weights)
+    y_pred = model.predict(img)
+    print(y_pred.shape)
+    y_pred=y_pred.reshape(-1, 9, 9, 272, 272, 1).swapaxes(2,3).reshape(-1,9*272,9*272,1)
+    y_pred = np.where(y_pred > .3, [255,255,255], [0,0,0])
+    return y_pred
