@@ -141,4 +141,5 @@ dmypy.json
 
 
 Notebooks/
-data/
+raw_data/
+earth_project/loaded_models/
