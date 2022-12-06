@@ -9,7 +9,7 @@ import json
 from image_to_API import image_to_dict, image_from_dict
 
 '''
-# Coloss forest calculator 🔎🌲:
+# Badass forest calculator 🔎🌲:
 '''
 #place_to_find = st.text_input('Quel bail ?')
 uploaded_file = st.file_uploader("Gimme  image", type=["png", "jpg", "jpeg"])

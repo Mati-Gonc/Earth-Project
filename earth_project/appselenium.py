@@ -11,19 +11,25 @@ from geoportail import launch_search
 
 
 '''
-# Coloss forest calculator 🔎🌲:
+# Badass forest calculator 🔎🌲:
 '''
-path='/home/mati/code/Mati-Gonc/Earth-Project/screenshots/test1.png'
-place_to_find = st.text_input('Quel bail ?')
-if place_to_find :
-    launch_search(place_to_find, path)
-    res = None
+count = 0
 
+path='/home/mati/code/Mati-Gonc/Earth-Project/screenshots/test1.png'
+
+place_to_find = st.text_input('Quel ville ?')
+
+if place_to_find and count == 0:
+    launch_search(place_to_find, path)
     image = Image.open(path)
-    st.image(image)
-    rgb_im = image.convert('RGB')
+    image_cropped = image.crop((120, 120, 900, 900))
+    image_cropped = image_cropped.resize((2448, 2448), resample=0)
+    st.image(image_cropped)
+    rgb_im = image_cropped.convert('RGB')
     imgArray = np.array(rgb_im)
 
+    res = None
+    count=1
 
 if st.button('predict brof'):
     # Send to API, endpoint must accept POST
@@ -33,7 +39,7 @@ if st.button('predict brof'):
     headers['Content-Type'] = 'application/json'
     # Use helpers method to prepare image for request
     request_dict = image_to_dict(imgArray)
-    print(len(request_dict))
+    #print(len(request_dict))
     # Post image data, and get prediction
     res = rq.post(endpoint, json.dumps(request_dict), headers=headers).json()
     if res:

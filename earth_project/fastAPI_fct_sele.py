@@ -5,9 +5,9 @@ from pydantic import BaseModel
 from image_to_API import image_to_dict, image_from_dict
 import team_base_model
 
-app = FastAPI()
+appselenium = FastAPI()
 
-@app.get("/")
+@appselenium.get("/")
 def index():
     return {'ok': "jusqu'ici tout va bien "}
 
@@ -18,7 +18,7 @@ class Item(BaseModel):
     width:int
     channel:int
 
-@app.post("/predict")
+@appselenium.post("/predict")
 def predict(item:Item):
     #Appel à la base
     np_array_img = image_from_dict(dict(item))

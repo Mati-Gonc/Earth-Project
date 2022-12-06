@@ -98,12 +98,12 @@ def model_build():
 #'loaded_models/model_full_data/model_full_data'
 
 
-def make_pred(img, weights = 'loaded_models/model_full_data/model_full_data'):
+def make_pred(img, weights = 'loaded_models/model_full_layers/test_model'):
     img = process_predict_img(img)
     model = model_build()
     model.load_weights(weights)
     y_pred = model.predict(img)
     print(y_pred.shape)
     y_pred=y_pred.reshape(-1, 9, 9, 272, 272, 1).swapaxes(2,3).reshape(-1,9*272,9*272,1)
-    y_pred = np.where(y_pred > .259, [255,255,255], [0,0,0])
+    y_pred = np.where(y_pred > .3, [255,255,255], [0,0,0])
     return y_pred

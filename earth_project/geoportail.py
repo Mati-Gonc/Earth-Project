@@ -24,16 +24,16 @@ def launch_search(place_name, path):
     bouton_jaune = driver.find_element(By.XPATH,'//*[@id="geolocation-marker"]')#'//*[@id="geolocation-marker-close"]'
     bouton_jaune.click()
 
-    time.sleep(10)
+    time.sleep(5)
     #driver.find_element(By.XPATH, '/html/body/div[2]/div[5]/section/div[15]/div[3]/div[4]') :
-    close_bubble = driver.find_element(By.XPATH, '/html/body/div[2]/div[5]/section/div[16]/div[3]/div[4]/div/input')
+    close_bubble = driver.find_element(By.CSS_SELECTOR, '.gp-styling-button')
     close_bubble.click()
 
-    bouton_zoom = driver.find_element(By.XPATH, '//*[@id="zoom-in"]')
-    bouton_zoom.click()
+    #bouton_zoom = driver.find_element(By.XPATH, '//*[@id="zoom-in"]')
+    #bouton_zoom.click()
 
     time.sleep(5)
-    screenshot = driver.get_screenshot_as_file(path)#'/home/mati/code/Mati-Gonc/Earth-Project/screenshots/test1.png')
+    driver.get_screenshot_as_file(path)#'/home/mati/code/Mati-Gonc/Earth-Project/screenshots/test1.png')
     driver.close()
     return None
 
