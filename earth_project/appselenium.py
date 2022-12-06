@@ -7,19 +7,24 @@ from PIL import Image
 import requests as rq
 import json
 from image_to_API import image_to_dict, image_from_dict
+from geoportail import launch_search
+
 
 '''
 # Coloss forest calculator 🔎🌲:
 '''
-#place_to_find = st.text_input('Quel bail ?')
-uploaded_file = st.file_uploader("Gimme  image", type=["png", "jpg", "jpeg"])
-res = None
+path='/home/mati/code/Mati-Gonc/Earth-Project/screenshots/test1.png'
+place_to_find = st.text_input('Quel bail ?')
+if place_to_find :
+    launch_search(place_to_find, path)
+    res = None
 
-if uploaded_file:
-    image = Image.open(uploaded_file)
+    image = Image.open(path)
     st.image(image)
     rgb_im = image.convert('RGB')
     imgArray = np.array(rgb_im)
+
+
 if st.button('predict brof'):
     # Send to API, endpoint must accept POST
     endpoint = 'http://127.0.0.1:8000/predict'
