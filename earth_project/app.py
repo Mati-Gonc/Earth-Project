@@ -1,6 +1,3 @@
-from sys import displayhook
-import streamlit as st
-
 import streamlit as st
 import numpy as np
 from PIL import Image
@@ -36,7 +33,7 @@ if uploaded_file:
 
 if st.button('predict brof'):
     # Send to API, endpoint must accept POST
-    endpoint = 'http://127.0.0.1:8000/predict'
+    endpoint = 'https://earthboite-6vuwhckoyq-od.a.run.app/predict'
     # Ensure json content type
     headers = {}
     headers['Content-Type'] = 'application/json'
