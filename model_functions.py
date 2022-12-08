@@ -26,7 +26,7 @@ def EncoderMiniBlock(inputs, n_filters=32, dropout_prob=0.3, max_pooling=True):
 
 
 def DecoderMiniBlock(prev_layer_input, skip_layer_input, n_filters=32, up_sampling='Con2DTranspose'):
-    
+
     if up_sampling == 'Con2DTranspose':
         prev_layer_input = Conv2DTranspose(
                     n_filters,
@@ -34,14 +34,14 @@ def DecoderMiniBlock(prev_layer_input, skip_layer_input, n_filters=32, up_sampli
                     strides=(2,2),
                     padding='same'
                     )(prev_layer_input)
-        
+
     elif up_sampling == 'up_sampling' :
         prev_layer_input = tf.keras.layers.UpSampling2D(
-            size=(2, 2), data_format=None, interpolation="nearest", **kwargs
+            size=(2, 2), data_format=None, interpolation="nearest"#, **kwargs
             )(prev_layer_input)
-    
+
     else : pass
-    
+
     merge = concatenate([prev_layer_input, skip_layer_input], axis=3)
     conv = Conv2D(n_filters,
                  3,
