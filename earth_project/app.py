@@ -1,4 +1,6 @@
 import streamlit as st
+
+import streamlit as st
 import numpy as np
 from PIL import Image
 import requests as rq
@@ -7,11 +9,17 @@ from image_to_API import image_to_dict, image_from_dict
 import io
 
 '''
-# Badass forest calculator 🔎🌲:
+# Earth's project 🛰 🔎 🗺
 '''
-place_to_find = st.text_input('================================== Tu veux voir la forêt de quelle ville bro ? =================================', value= 'terter')
-uploaded_file = st.file_uploader("============================== Vazy, tu peux direct donner une image si tu veux ============================== ", type=["png", "jpg", "jpeg"])
+
+col1,col2 = st.columns(2)
+col1.markdown("### Enter a city")
+place_to_find = col1.text_input('in France')
+
+col2.markdown("### Or, upload your file")
+uploaded_file = col2.file_uploader("Everywhere in the world ", type=["png", "jpg", "jpeg"])
 res = None
+
 
 if place_to_find:
     url = f'https://image.maps.ls.hereapi.com/mia/1.6/mapview?apiKey=EGJw9wPvG7b8taiDqr88xgPMA68nwJxtwybySFulHaE&sb=km&w=2448&h=2448&z=15&co=france&ci={place_to_find}&t=1&ppi=3'
@@ -31,9 +39,9 @@ if uploaded_file:
     rgb_im = image.convert('RGB')
     imgArray = np.array(rgb_im)
 
-if st.button('predict brof'):
+if st.button("Let's the magic happen"):
     # Send to API, endpoint must accept POST
-    endpoint = 'https://earthboite-6vuwhckoyq-od.a.run.app/predict'
+    endpoint = 'https://luneapi-6vuwhckoyq-ew.a.run.app/predict'
     # Ensure json content type
     headers = {}
     headers['Content-Type'] = 'application/json'
@@ -41,9 +49,13 @@ if st.button('predict brof'):
     request_dict = image_to_dict(imgArray)
     print(len(request_dict))
     # Post image data, and get prediction
-    print(endpoint)
-    print(request_dict)
-    print(headers)
     res = rq.post(endpoint, json.dumps(request_dict), headers=headers).json()
     if res:
-        st.image(image_from_dict(res['image']))
+        array_return = image_from_dict(res['image'])
+        tot3 = np.repeat(array_return, 3, axis=3)
+        tot3 = np.where(tot3 == [0, 0, 0], [170, 170, 170], tot3)
+        tot3 = np.where(tot3 == [1, 1, 1], [179, 0, 12], tot3)
+        tot3 = np.where(tot3 == [2, 2, 2], [0, 127, 8], tot3)
+        tot3 = np.where(tot3 == [3, 3, 3], [62, 120, 208], tot3)
+
+        st.image(tot3)
