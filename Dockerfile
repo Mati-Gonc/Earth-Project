@@ -1,11 +1,10 @@
 
-FROM python:3.10.6-buster
-#FROM tensorflow/tensorflow:2.10.0
-COPY requirements.txt /requirements.txt
+FROM tensorflow/tensorflow:2.10.0
+COPY requirements_prod.txt /requirements.txt
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 COPY earth_project /earth_project
-CMD uvicorn earth_project.pred_api:app --host 0.0.0.0 --port 8000
+CMD uvicorn earth_project.fastAPI_fct:app --host 0.0.0.0 --port 8000
 
 #CMD uvicorn earth_project.pred_api:app --host 0.0.0.0 --port $PORT pour après
 

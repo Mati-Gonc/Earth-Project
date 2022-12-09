@@ -2,8 +2,8 @@ from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import StreamingResponse
 from PIL import Image
 from pydantic import BaseModel
-from image_to_API import image_to_dict, image_from_dict
-import team_base_model
+from earth_project.image_to_API import image_to_dict, image_from_dict
+import earth_project.team_base_model as team_base_model
 
 app = FastAPI()
 

@@ -145,7 +145,7 @@ def unet_vgg_multi_build(nb_classes=4):
     return unet_vgg
 
 
-def make_pred(img, weights = os.path.join(os.environ['HOME'],'code/Mati-Gonc/Earth-Project/earth_project/loaded_models/vgg_train_1/weights_vgg_train_1')):
+def make_pred(img, weights = os.path.join(os.environ['HOME'],'code/Mati-Gonc/Earth-Project/earth_project/loaded_models/vgg_train_4/weights_vgg_train_4')):
     img = process_predict_img(img)
     model = model_build()
     model.load_weights(weights)
@@ -155,7 +155,7 @@ def make_pred(img, weights = os.path.join(os.environ['HOME'],'code/Mati-Gonc/Ear
     y_pred = np.where(y_pred > .3, [255,255,255], [0,0,0])
     return y_pred
 
-def make_pred_VGG(img, threshold=0.3, weights = os.path.join(os.environ['HOME'],'code/Mati-Gonc/Earth-Project/earth_project/loaded_models/vgg_train_1/weights_vgg_train_1')):
+def make_pred_VGG(img, threshold=0.3, weights = os.path.join(os.environ['HOME'],'code/Mati-Gonc/Earth-Project/earth_project/loaded_models/vgg_train_4/weights_vgg_train_4')):
     img = process_predict_img(img)
     model = unet_vgg_build()
     model.load_weights(weights)
@@ -166,13 +166,25 @@ def make_pred_VGG(img, threshold=0.3, weights = os.path.join(os.environ['HOME'],
     return y_pred
 
 
-def make_pred_VGG_multi(img, nb_classes=4, weights=None):
+def make_model_VGG_multi(nb_classes=4, weights=os.path.join(os.environ['HOME'],'code/Mati-Gonc/Earth-Project/earth_project/loaded_models/vgg_train_4/weights_vgg_train_4')):
+    model = unet_vgg_multi_build(nb_classes)
+    model.load_weights(weights)
+    return model
+
+def make_pred_VGG_multi(img, model):
+    img = process_predict_img(img)
+    y_pred = model.predict(img)
+    y_pred=y_pred.reshape(-1, 11, 11, 224, 224, 4).swapaxes(2,3).reshape(-1,11*224,11*224,4)
+    y_pred = np.argmax(y_pred, -1)
+    y_pred = y_pred.reshape(2464, 2464)
+    return y_pred
+
+
+def make_VGG_multi_test(img, nb_classes=4, weights=os.path.join(os.environ['HOME'],'/Users/thomasmissonnier/code/Mati-Gonc/Earth-Project/earth_project/loaded_models/weights_vgg_train_4/vgg_train_multi_4')):
     img = process_predict_img(img)
     model = unet_vgg_multi_build(nb_classes)
     model.load_weights(weights)
     y_pred = model.predict(img)
-    print(y_pred.shape)
-
     y_pred=y_pred.reshape(-1, 11, 11, 224, 224, 4).swapaxes(2,3).reshape(-1,11*224,11*224,4)
     y_pred = np.argmax(y_pred, -1)
     return y_pred
